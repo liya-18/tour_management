@@ -1,0 +1,18 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="app-dashboard module">
+        <table>
+            <caption>Custom Admin Tools</caption>
+            <tr>
+                <th scope="row">Tour Management</th>
+                <td>
+                    <a href="{% url 'admin_dashboard' %}" style="padding: 6px 12px; background-color: #28a745; color: white; border-radius: 4px; text-decoration: none;">Go to Custom Admin Dashboard</a>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

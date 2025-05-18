@@ -1,0 +1,48 @@
+{% extends "packages/base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Total Users:</strong> {{ total_users }}</li>
+        <li class="list-group-item"><strong>Total Packages:</strong> {{ total_packages }}</li>
+        <li class="list-group-item"><strong>Total Bookings:</strong> {{ total_bookings }}</li>
+    </ul>
+
+    <h4 class="mt-4">Pending Tour Packages</h4>
+    <ul class="list-group mb-4">
+        {% for pkg in pending_packages %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ pkg.name }}</strong> — {{ pkg.vendor.company_name }}<br>
+                <small class="text-muted">Destination: {{ pkg.destination }} | ₹{{ pkg.price }}</small>
+            </div>
+            <div>
+                <a href="{% url 'approve_package' pkg.pk %}" class="btn btn-sm btn-success"
+                   onclick="return confirm('Approve this package?');">Approve</a>
+                <a href="{% url 'delete_package_admin' pkg.pk %}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Delete this package?');">Delete</a>
+            </div>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No pending packages.</li>
+        {% endfor %}
+    </ul>
+
+    <h4 class="mt-5">Expired Packages</h4>
+    <ul class="list-group">
+        {% for exp in expired_packages %}
+        <li class="list-group-item d-flex justify-content-between">
+            <div>
+                <strong>{{ exp.name }}</strong> — {{ exp.vendor.company_name }}
+                <small class="text-muted d-block">Expired on {{ exp.expiry_date }}</small>
+            </div>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No expired packages.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

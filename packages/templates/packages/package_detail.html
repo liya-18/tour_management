@@ -1,0 +1,31 @@
+<!-- templates/packages/package_detail.html -->
+{% extends "packages/base.html" %}
+
+{% block title %}{{ tour.name }} Details{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ tour.name }}</h1>
+    {% if tour.image %}
+      <img src="{{ tour.image.url }}" alt="{{ tour.name }}" class="img-fluid mb-3">
+    {% endif %}
+    <div class="details">
+  <p><strong>Location:</strong> {{ tour.destination }}</p>
+  <p><strong>Price:</strong> ₹{{ tour.price }}</p>
+  <p><strong>Description:</strong> {{ tour.description }}</p>
+  <p><strong>Duration:</strong> {{ tour.duration }}</p>
+  <p><strong>Status:</strong>
+    {% if is_expired %}
+      <span class="text-danger">Expired</span>
+    {% else %}
+      <span class="text-success">Available</span>
+    {% endif %}
+  </p>
+</div>
+
+{% if not is_expired %}
+  <a href="{% url 'book_package' tour.pk %}" class="btn btn-success">Book Now</a>
+{% else %}
+  <span class="btn btn-secondary disabled">Booking Closed (Expired)</span>
+{% endif %}
+{% endblock %}

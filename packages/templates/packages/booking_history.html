@@ -1,0 +1,26 @@
+{% extends "packages/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>My Bookings</h2>
+    <ul class="list-group">
+        {% for booking in bookings %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ booking.package.name }}</strong><br>
+                Travel Date: {{ booking.travel_date }}
+            </div>
+            <span class="badge 
+                {% if booking.payment_status == "Paid" %}
+                    bg-success
+                {% else %}
+                    bg-warning text-dark
+                {% endif %}">
+                {{ booking.payment_status }}
+            </span>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No bookings yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

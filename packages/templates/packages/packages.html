@@ -1,0 +1,62 @@
+{% extends "packages/base.html" %}
+
+{% block title %}All Packages{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Our Tour Packages</h1>
+
+<!-- Filter & Search Form -->
+<form method="get" class="row mb-4 g-3">
+  <div class="col-md-4">
+    <input type="text" name="q" class="form-control" placeholder="Search by Name" value="{{ request.GET.q }}">
+  </div>
+  <div class="col-md-4">
+    <input type="text" name="destination" class="form-control" placeholder="Filter by Destination" value="{{ request.GET.destination }}">
+  </div>
+  <div class="col-md-3">
+    <select name="price" class="form-select">
+      <option value="">Sort by Price</option>
+      <option value="low" {% if request.GET.price == 'low' %}selected{% endif %}>Low to High</option>
+      <option value="high" {% if request.GET.price == 'high' %}selected{% endif %}>High to Low</option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <button type="submit" class="btn btn-primary w-100">Go</button>
+  </div>
+</form>
+
+<!-- Package Display -->
+{% if tours %}
+  <div class="row">
+    {% for tour in tours %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          {% if tour.image %}
+            <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}" style="height: 200px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ tour.name }}</h5>
+            <p><strong>Destination:</strong> {{ tour.destination }}</p>
+            <p><strong>Price:</strong> ₹{{ tour.price }}</p>
+
+            <!-- Price Tags -->
+            {% if tour.price < 10000 %}
+              <span class="badge bg-success">Budget</span>
+            {% elif tour.price < 20000 %}
+              <span class="badge bg-warning text-dark">Standard</span>
+            {% else %}
+              <span class="badge bg-danger">Luxury</span>
+            {% endif %}
+
+            <div class="mt-3">
+              <a href="{% url 'package_detail' tour.pk %}" class="btn btn-outline-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No packages found matching your filters.</p>
+{% endif %}
+{% endblock %}

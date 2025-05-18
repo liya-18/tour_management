@@ -1,0 +1,13 @@
+{% extends "packages/base.html" %}
+{% block title %}Book Package{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Book: {{ package.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Confirm Booking</button>
+    </form>
+</div>
+{% endblock %}

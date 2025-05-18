@@ -1,0 +1,40 @@
+{% extends "packages/base.html" %}
+{% block title %}Vendor Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Welcome, {{ request.user.username }}!</h2>
+    <a href="{% url 'vendor_bookings' %}" class="btn btn-primary mt-3">View Bookings</a>
+
+
+    <h4>Create New Tour Package</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Add Package</button>
+    </form>
+
+    <hr>
+
+    <h4>Your Tour Packages</h4>
+    <ul class="list-group mt-3">
+        {% for package in packages %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+    <div>
+        <strong>{{ package.name }}</strong> – ₹{{ package.price }}
+    </div>
+    <div>
+        <a href="{% url 'edit_package' package.pk %}" class="btn btn-sm btn-warning">Edit</a>
+        <form method="post" action="{% url 'delete_package' package.pk %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+    </div>
+</li>
+
+        {% empty %}
+            <li class="list-group-item text-muted">No packages yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

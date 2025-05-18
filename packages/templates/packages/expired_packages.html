@@ -1,0 +1,28 @@
+{% extends "packages/base.html" %}
+
+{% block title %}Expired Packages{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Expired Tour Packages</h1>
+  {% if expired_packages %}
+    <div class="row">
+      {% for tour in expired_packages %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            {% if tour.image %}
+              <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ tour.name }}</h5>
+              <p><strong>Destination:</strong> {{ tour.destination }}</p>
+              <p><strong>Price:</strong> ₹{{ tour.price }}</p>
+              <p><strong>Status:</strong> Expired</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No expired packages available.</p>
+  {% endif %}
+{% endblock %}

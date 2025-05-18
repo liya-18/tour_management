@@ -1,0 +1,12 @@
+{% extends "packages/base.html" %}
+
+{% block title %}Vendor Registration{% endblock %}
+
+{% block content %}
+<h2>Vendor Registration</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+{% endblock %}
